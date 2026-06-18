@@ -116,11 +116,23 @@ with right:
         height=180
     )
 
+
+
+
+if "summary" not in st.session_state:
+    st.session_state.summary = ""
+
+if "fact_recall" not in st.session_state:
+    st.session_state.fact_recall = selected_row["fact_recall"]
+
+if "hallucination_flag" not in st.session_state:
+    st.session_state.hallucination_flag = selected_row["hallucination_flag"]
+
 if st.button("Run Audit"):
 
     with st.spinner("Running audit..."):
 
-        summary = generate_summary(input_text)
+        st.session_state.summary = generate_summary(input_text)
 
         facts = [
             fact.strip()
@@ -133,24 +145,34 @@ if st.button("Run Audit"):
 
         for fact in facts:
 
-            if fact_present(fact, summary):
+            if fact_present(
+                fact,
+                st.session_state.summary
+            ):
                 matched += 1
 
-        fact_recall = matched / len(facts)
+        st.session_state.fact_recall = matched / len(facts)
 
-        hallucination_flag = (
-            1 if fact_recall < 0.4 else 0
+        st.session_state.hallucination_flag = (
+            1 if st.session_state.fact_recall < 0.4 else 0
         )
 
-        row = selected_row.copy()
+row = selected_row.copy()
 
-        row["llm_summary"] = summary
-        row["fact_recall"] = fact_recall
-        row["hallucination_flag"] = hallucination_flag
+if st.session_state.summary:
 
-else:
+    row["llm_summary"] = st.session_state.summary
 
-    row = selected_row
+    row["fact_recall"] = (
+        st.session_state.fact_recall
+    )
+
+    row["hallucination_flag"] = (
+        st.session_state.hallucination_flag
+    )
+
+
+
 
 fact_recall_pct = int(row["fact_recall"] * 100)
 
@@ -180,7 +202,14 @@ with col2:
 
     st.markdown("### LLM Summary")
 
-    st.success(row["llm_summary"])
+
+st.success(
+    row.get(
+        "llm_summary",
+        selected_row["llm_summary"]
+    )
+)
+
 
 st.markdown("### Audit Results")
 
