@@ -2,7 +2,7 @@ import re
 import pandas as pd
 import streamlit as st
 
-from generate_summary import generate_summary
+from src.generate_summary import generate_summary
 
 st.set_page_config(
     page_title="AI Hallucination Auditing",
