@@ -1,13 +1,15 @@
 import os
 import streamlit as st
+import pandas as pd
 
 from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
 
-
 api_key = os.getenv("OPENAI_API_KEY")
+
+#api_key = os.getenv("OPENAI_API_KEY")
 
 ##if not api_key:
   ##  api_key = st.secrets["OPENAI_API_KEY"]
