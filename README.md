@@ -1,5 +1,4 @@
 ---
-
 title: AI Hallucination Auditing
 sdk: streamlit
 sdk_version: "1.45.1"
@@ -8,8 +7,8 @@ license: mit
 colorFrom: blue
 colorTo: indigo
 pinned: false
-short_description: Auditing LLM reliability in compliance workflows
---------------------------------------------------------------------
+short_description: Auditing LLM reliability in compliance workflows.
+---
 
 # AI Hallucination Auditing
 
