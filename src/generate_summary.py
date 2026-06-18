@@ -51,18 +51,22 @@ def generate_summary(text):
     return response.choices[0].message.content
 
 
-df = pd.read_csv("data/compliance_cases.csv")
+if __name__ == "__main__":
 
-summaries = []
+    import pandas as pd
 
-for text in df["input_text"]:
+    df = pd.read_csv("data/compliance_cases.csv")
 
-    summary = generate_summary(text)
+    summaries = []
 
-    summaries.append(summary)
+    for text in df["input_text"]:
 
-df["llm_summary"] = summaries
+        summary = generate_summary(text)
 
-df.to_csv("results/summary_results.csv", index=False)
+        summaries.append(summary)
 
-print("Done. Results saved to results/summary_results.csv")
+    df["llm_summary"] = summaries
+
+    df.to_csv("results/summary_results.csv", index=False)
+
+    print("Done. Results saved to results/summary_results.csv")
